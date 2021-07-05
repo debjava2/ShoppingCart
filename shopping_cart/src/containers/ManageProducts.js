@@ -43,9 +43,10 @@ function ManageProducts() {
           },
     ]
 
-    const handleDelete = (rowId, name) => {
-        console.log(rowId, name);
-        //1 YourCellName
+    const handleDelete = async (rowId) => {
+      const filterData=listData.filter((list)=>list.id!==rowId);
+      setListDate(filterData);
+      const res = await InventoryDataServices.deleteItem(rowId);
       };
 
 

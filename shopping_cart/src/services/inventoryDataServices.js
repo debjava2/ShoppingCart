@@ -20,27 +20,26 @@ const getAllItem = () => {
       }
     }
     
-
-   return  axios.delete(`localhost:8080/deleteItem/${id}`,config)  
-      .then(res => {  
-        console.log(res);  
-       
-      }).catch(function (error) {
-          // handle error
-           console.log(error);
-         })  
-
-
-    // return http.delete("/deleteItem/"+id,config) .catch(function (error) {
-    //   // handle error
-    //   console.log(error);
-    // })
-    // return http.post("/getAllItems2",{
-    //   params: {
-    //     id: id
-    //   }
-    // },config)
-  };
+    fetch('http://localhost:8080/deleteItem/'+id, { 
+      method: 'delete', 
+      headers: new Headers({
+        'Authorization': 'Bearer '+localStorage.getItem("token"), 
+        'Content-Type': 'application/x-www-form-urlencoded'
+      })
+    }).then((response) =>{ 
+      console.log("asdasdasdasd")
+      console.log(response.json())
+    
+    });
+    //return http.delete("/deleteItem",config);
+  //  return  axios.delete(`localhost:8080/deleteItem/`+id,config)  
+  //     .then(res => {  
+  //       console.log(res);  
+  //     }).catch(function (error) {
+  //          console.log(error);
+  //        })  
+    
+   };
 
 
 
