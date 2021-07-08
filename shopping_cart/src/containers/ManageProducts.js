@@ -41,14 +41,46 @@ function ManageProducts() {
               );
             },
           },
+          {
+            dataField: "Edit",
+            text: "Edit",
+            formatter: (cellContent, row) => {
+              return (
+                <button
+                  className="btn btn-danger btn-xs"
+                  onClick={() => handleEdit(row.id, row.name)}
+                >
+                  Edit
+                </button>
+              );
+            },
+          },
     ]
 
     const handleDelete = async (rowId) => {
       const filterData=listData.filter((list)=>list.id!==rowId);
-      setListDate(filterData);
+      // setListDate(filterData);
       const res = await InventoryDataServices.deleteItem(rowId);
+      dispatch(setProducts(filterData));
       };
 
+      const handleEdit = async (rowId) => {
+        const itm=products.filter((item)=>rowId==item.id);
+        console.log(itm);
+        setShowForm(true);
+        setValue("id", rowId);  
+        setValue("image", itm[0].image);  
+        setValue("description", itm[0].description);  
+        setValue("title", itm[0].title);
+        setValue("price", itm[0].price);
+        setValue("category", itm[0].category);
+        };
+
+        const onSubmit = async (data) => {
+          const res = await InventoryDataServices.updateItem(data);
+          setShowForm(false);
+          dispatch(setProducts(res));
+       };
 
     const pagination=paginationFactory({
         page:1,
@@ -81,6 +113,23 @@ function ManageProducts() {
       }, [products]);
     return (
         <div>
+          {
+                showForm &&
+                <div style={{background: "currentColor"}}>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                <input type="hidden" {...register("id")} />   
+                <input type="hidden" {...register("description")} /> 
+                <input type="hidden" {...register("image")} /> 
+                <label>Title</label>
+                <input type="text" {...register("title")} />
+                <label>Price</label>
+                <input type="text" {...register("price")} />
+                <label>Category</label>
+                <input type="text" {...register("category")} />
+                <input type="submit" />
+              </form>
+              </div>
+}
             <BootstrapTable bootstrap4 
             keyField="id" columns={columns} 
             data={listData} pagination={pagination}/>

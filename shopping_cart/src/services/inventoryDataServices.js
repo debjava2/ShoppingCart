@@ -41,12 +41,36 @@ const getAllItem = () => {
     
    };
 
+   const updateItem = (data) => {
+
+    return fetch('http://localhost:8080/updateItems/', {
+      method: 'post',
+      headers: {
+        'Authorization': 'Bearer '+localStorage.getItem("token"),
+        'Accept': 'application/json, text/plain, */*',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(
+      {
+          "id": data.id,
+                "title": data.title,
+                "category":data.category,
+                "description":data.description,
+                "image":data.image,
+                "price":data.price
+      
+      }
+      )
+    }).then(res => res.json());
+    
+  };
 
 
 
   const inventoryDataServices = {
     getAllItem,
     deleteItem,
+    updateItem,
   };
   
   export default inventoryDataServices;
