@@ -4,7 +4,7 @@ env:
     variables:
         CACHE_CONTROL: "86400"
         S3_BUCKET: "https://s3.console.aws.amazon.com/s3/buckets/shopingcart-s3-bucket?region=us-east-1&tab=properties"
-        BUILD_FOLDER: "dist"
+        BUILD_FOLDER: "build"
 phases:
   install:
     runtime-versions:
@@ -16,9 +16,9 @@ phases:
   build:
     commands:
         - echo Build started 
-        - ng build
+        - npm run build
 artifacts:
     files:
         - '**/*'
-    base-directory: 'dist*'
+    base-directory: 'build*'
     discard-paths: yes
